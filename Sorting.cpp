@@ -131,6 +131,34 @@ void selectionSort(int arr[], int n)
             swap(arr[min_idx], arr[i]);
     }
 }
+void countSort(int *arr, int n)
+{
+    // first find the max in array
+    int k = arr[0];
+    for (int i = 0; i < n; i++)
+    {
+        k = max(k, arr[i]);
+    }
+    // create an array of size of maximum element
+    int count[10000] = {0};
+    for (int i = 0; i < n; i++)
+    {
+        count[arr[i]]++;
+    }
+    for (int i = 1; i <= k; i++)
+    {
+        count[i] += count[i - 1];
+    }
+    int output[n];
+    for (int i = n - 1; i >= 0; i--)
+    {
+        output[--count[arr[i]]] = arr[i];
+    }
+    for (int i = 0; i < n; i++)
+    {
+        arr[i] = output[i];
+    }
+}
 
 void print(int *arr, int n)
 {
@@ -153,6 +181,7 @@ int main()
         int no = rand() % 1000 + 1;
         arr[i] = no;
     }
+    countSort(arr, n);
     print(arr, n);
     time_req = clock() - time_req;
     cout << "Processor time taken for multiplication: "
